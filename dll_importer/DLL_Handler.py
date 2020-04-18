@@ -34,14 +34,15 @@ class DLL_Handler:
         # self.cwd_str = str(self.cwd)
         # self.cwd_str = r"d:/PythonProjects/Fast_Matrix_Operators_Project/dll_importer/generated_files/"
         # self.cwd = Path(self.cwd_str)
-        self.Fast_Matrix_Operators_Cpp = r"d:\PythonProjects\Fast_Matrix_Operators_Project\dll_importer\CPP_Files\Fast_Matrix_Operators.cpp"
+        # self.Fast_Matrix_Operators_Cpp = r"d:\PythonProjects\Fast_Matrix_Operators_Project\dll_importer\CPP_Files\Fast_Matrix_Operators.cpp"
         self.Fast_Matrix_Operators_Cpp = os.path.join(current_folder_dir,r'CPP_Files','Fast_Matrix_Operators.cpp')
-
+        self.Vector_Cpp = os.path.join(current_folder_dir,r'CPP_Files','Vector.cpp')
         self._compile_dll()
 
     def _compile_dll(self):
+        # " /LD " + "d:\PythonProjects\Fast_Matrix_Operators_Project\dll_importer\CPP_Files\Vector.cpp "
         cmd = r'"' + self.vcvars_bat + r'"' + " " + "&&" + " " + r'"' + self.cl_exe + r'"' +\
-            " " + "/LD " + str(self.Fast_Matrix_Operators_Cpp)
+            " " + "/LD " + str(self.Fast_Matrix_Operators_Cpp) + " " + str(self.Vector_Cpp)
         proc = subprocess.Popen(cmd, cwd=self.cwd)
         proc.wait()
 

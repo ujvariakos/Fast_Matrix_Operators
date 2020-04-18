@@ -30,7 +30,7 @@ class Vector:
             ret = func(arg0, len(self.points), arg1, len(other.points))
             for i in range(len(self.points)):
                 result.points.append(ret[i])
-            ret = self.fast_matrix_operators_dll.vector_free(ret)
+            # ret = self.fast_matrix_operators_dll.vector_free(ret)
         return result
 
     def __sub__(self, other):
@@ -48,7 +48,7 @@ class Vector:
             ret = func(arg0, len(self.points), arg1, len(other.points))
             for i in range(len(self.points)):
                 result.points.append(ret[i])
-            ret = self.fast_matrix_operators_dll.vector_free(ret)
+            # ret = self.fast_matrix_operators_dll.vector_free(ret)
         return result
 
     def __mul__(self, other):
@@ -65,7 +65,7 @@ class Vector:
         ret = func(arg0, len(self.points), s)
         for i in range(len(self.points)):
             result.points.append(ret[i])
-        ret = self.fast_matrix_operators_dll.vector_free(ret)
+        # ret = self.fast_matrix_operators_dll.vector_free(ret)
         return result
 
     def __truediv__(self, other):
@@ -84,7 +84,7 @@ class Vector:
         ret = func(arg0, len(self.points), s)
         for i in range(len(self.points)):
             result.points.append(ret[i])
-        ret = self.fast_matrix_operators_dll.vector_free(ret)
+        # ret = self.fast_matrix_operators_dll.vector_free(ret)
         return result
 
     def __floordiv__(self, other):
@@ -103,5 +103,5 @@ class Vector:
         ret = func(arg0, len(self.points), s)
         for i in range(len(self.points)):
             result.points.append(math.floor(ret[i]))
-        ret = self.fast_matrix_operators_dll.vector_free(ret)
+        # ret = self.fast_matrix_operators_dll.vector_free(ret)
         return result

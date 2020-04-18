@@ -1,5 +1,6 @@
 #include "pch.h"
 #include <stdexcept>
+#include "Vector.h"
 //#include <exception>
 using namespace std;
 
@@ -15,56 +16,82 @@ using namespace std;
 
 #define LIBDLL extern "C" __declspec(dllexport)
 
-LIBDLL int sum(int a, int b) {
-    return a + b;
-}
+//LIBDLL int sum(int a, int b) {
+//    return a + b;
+//}
 
 LIBDLL float* vector_add(float* v0, int size_v0, float* v1, int size_v1) {
     float *ret_v = (float*)malloc(size_v0 * sizeof(float));
-    if (size_v0 != size_v1) {
-        throw std::invalid_argument("vectors length are different");
-        //          throw MyException()
-    }
-    else {
-        for (int i = 0; i < size_v0; i++) {
-            *(ret_v + i) = *(v0 + i) + *(v1 + i);
-        }
-    }
-    return ret_v;
+//    if (size_v0 != size_v1) {
+//        throw std::invalid_argument("vectors length are different");
+//    }
+//    else {
+//        for (int i = 0; i < size_v0; i++) {
+//            *(ret_v + i) = *(v0 + i) + *(v1 + i);
+//        }
+//    }
+//    return ret_v;
+    Vector vec1 = Vector(v0, size_v0);
+    Vector vec2 = Vector(v1, size_v1);
+    Vector vec3 = vec1 + vec2;
+    return vec3.get_vector_elements();
 }
 
+//LIBDLL float* vector_add2(float* v0, int size_v0, float* v1, int size_v1) {
+//    float *ret_v = (float*)malloc(size_v0 * sizeof(float));
+//    if (size_v0 != size_v1) {
+//        throw std::invalid_argument("vectors length are different");
+//    }
+//    else {
+//        for (int i = 0; i < size_v0; i++) {
+//            *(ret_v + i) = *(v0 + i) + *(v1 + i);
+//        }
+//    }
+//    return ret_v;
+//}
+
 LIBDLL float* vector_sub(float* v0, int size_v0, float* v1, int size_v1) {
-    float* ret_v = (float*)malloc(size_v0 * sizeof(float));
-    if (size_v0 != size_v1) {
-        throw std::invalid_argument("vectors length are different");
-        //          throw MyException()
-    }
-    else {
-        for (int i = 0; i < size_v0; i++) {
-            *(ret_v + i) = *(v0 + i) - *(v1 + i);
-        }
-    }
-    return ret_v;
+//    float* ret_v = (float*)malloc(size_v0 * sizeof(float));
+//    if (size_v0 != size_v1) {
+//        throw std::invalid_argument("vectors length are different");
+//        //          throw MyException()
+//    }
+//    else {
+//        for (int i = 0; i < size_v0; i++) {
+//            *(ret_v + i) = *(v0 + i) - *(v1 + i);
+//        }
+//    }
+//    return ret_v;
+    Vector vec1 = Vector(v0, size_v0);
+    Vector vec2 = Vector(v1, size_v1);
+    Vector vec3 = vec1 - vec2;
+    return vec3.get_vector_elements();
 }
 
 LIBDLL float* vector_mult(float* v0, int size_v0, float s) {
-    float* ret_v = (float*)malloc(size_v0 * sizeof(float));
-    for (int i = 0; i < size_v0; i++) {
-        *(ret_v + i) = *(v0 + i) * s;
-    }
-    return ret_v;
+//    float* ret_v = (float*)malloc(size_v0 * sizeof(float));
+//    for (int i = 0; i < size_v0; i++) {
+//        *(ret_v + i) = *(v0 + i) * s;
+//    }
+//    return ret_v;
+    Vector vec1 = Vector(v0, size_v0);
+    Vector vec2 = vec1 * s;
+    return vec2.get_vector_elements();
 }
 
 LIBDLL float* vector_div(float* v0, int size_v0, float s) {
-    if (s == 0) {
-        throw std::invalid_argument("scalar can not be 0");
-        //          throw MyException()
-    }
-    float* ret_v = (float*)malloc(size_v0 * sizeof(float));
-    for (int i = 0; i < size_v0; i++) {
-        *(ret_v + i) = *(v0 + i) / s;
-    }
-    return ret_v;
+//    if (s == 0) {
+//        throw std::invalid_argument("scalar can not be 0");
+//        //          throw MyException()
+//    }
+//    float* ret_v = (float*)malloc(size_v0 * sizeof(float));
+//    for (int i = 0; i < size_v0; i++) {
+//        *(ret_v + i) = *(v0 + i) / s;
+//    }
+//    return ret_v;
+    Vector vec1 = Vector(v0, size_v0);
+    Vector vec2 = vec1 / s;
+    return vec2.get_vector_elements();
 }
 
 LIBDLL float* vector_free(float* v0) {

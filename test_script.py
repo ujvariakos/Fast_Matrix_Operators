@@ -10,29 +10,20 @@ fast_matrix_operators_dll = dll_handler.get_dll()
 
 # print(fast_matrix_operators_dll.sum(1,3))
 
-v1 = Vector([1.1,2.2,3.3,4.4])
+v1 = Vector([2.2,2.2,2.2,4.4])
 v2 = Vector([3,2,1, 5])
 
-v3 = v1 + v2
+v3 = v1 /2
+
+print("v1", v1)
+print("v2", v2)
+print("v3", v3)
 
 v4 = v3 - v1
 
 
 
-print(v3)
-# print("numpy : ", numpy.add(v1.points, v2.points))
-print(v4)
-print(v2)
 
-v5 = v1*0.1
-print("v1", v1)
-print("mult", v5)
-v5 = v1/0.1
-print("div", v5)
-v5 = v1//0.1
-print("div", v5)
-v5 = v1*2
-print("mult", v5)
 
 
 # func = fast_matrix_operators_dll.vector_add
