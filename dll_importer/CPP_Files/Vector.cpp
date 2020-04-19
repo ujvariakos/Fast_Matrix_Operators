@@ -3,6 +3,14 @@
 #include <stdexcept>
 using namespace std;
 
+//struct MyException : public std::exception
+//{
+//	const char * what () const throw ()
+//    {
+//    	return "C++ Exception";
+//    }
+//}
+
 Vector::Vector(float* vector_elements, int size_v)
 {
 //	this->vector_elements = (float*)malloc(size_v * sizeof(float));
@@ -76,6 +84,7 @@ Vector Vector::operator/(float s)
 {
     if (s == 0) {
         throw std::invalid_argument("scalar can not be 0");
+       // throw MyException();
     }
     float* ret_v = (float*)malloc(this->size_v * sizeof(float));
     for (int i = 0; i < this->size_v; i++) {

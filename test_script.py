@@ -1,5 +1,6 @@
 from dll_importer import *
 from matrix_and_vector.Vector import Vector
+from matrix_and_vector.Matrix import Matrix
 
 # import numpy
 
@@ -10,16 +11,32 @@ fast_matrix_operators_dll = dll_handler.get_dll()
 
 # print(fast_matrix_operators_dll.sum(1,3))
 
-v1 = Vector([2.2,2.2,2.2,4.4])
-v2 = Vector([3,2,1, 5])
+v1 = Vector([1,2,3,4,5])
+v2 = Vector([2,3,4,5,6])
+v3 = Vector([10,21])
 
-v3 = v1 /2
+# print(v1+v2)
 
-print("v1", v1)
-print("v2", v2)
-print("v3", v3)
+m1 = Matrix([v1, v1, v1])
+m2 = Matrix([v2, v2, v2])
+# print("------------------------------")
+m3 = m1 - m2
+m1.test()
+# print(m1.test())
+print(m1)
+print(m2)
+print(m3)
+# print("------------------------------")
+# r = m.test()
+# print("r ", r)
 
-v4 = v3 - v1
+# v3 = v1 /2
+#
+# print("v1", v1)
+# print("v2", v2)
+# print("v3", v3)
+#
+# v4 = v3 - v1
 
 
 
