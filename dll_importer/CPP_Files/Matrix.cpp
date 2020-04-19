@@ -79,6 +79,33 @@ Matrix Matrix::operator*(float s)
     return matrix;
 }
 
+Matrix Matrix::operator*(Matrix m)
+{
+    //if (this->vector_number != m.get_vector_size()) {
+    //    throw std::invalid_argument("invalid matrix size");
+    //}
+    if (this->vector_size != m.get_vector_number()) {
+        throw std::invalid_argument("invalid size");
+    }
+
+    Vector* vectors = (Vector*)malloc(this->vector_number * sizeof(Vector));
+    for (int i = 0; i < this->vector_number; i++) {
+        Vector v = *(m.get_vectors() + 0) * *((this->vectors + i)->get_vector_elements() + 0);
+        for (int k = 0; k < this->vector_size; k++) {
+            if (k == 0) {
+            // Nope
+            }
+            else {
+                v = v + *(m.get_vectors() + k) * *((this->vectors + i)->get_vector_elements() + k);
+            }
+        }
+    *(vectors + i) = v;
+
+    }
+    Matrix matrix = Matrix(vectors, this->vector_number);
+    return matrix;
+}
+
 Vector* Matrix::get_vectors()
 {
     return this->vectors;

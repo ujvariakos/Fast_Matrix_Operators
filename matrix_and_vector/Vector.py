@@ -2,13 +2,17 @@ import ctypes
 import math
 from typing import List
 from dll_importer import dll_handler
+import numpy
+# numpy.
 
 
 
 class Vector:
 
-    def __init__(self, points:List[float]):
-        self.points = points
+    def __init__(self, points):
+        self.points = list()
+        for p in points:
+            self.points.append(p)
         # self.fast_matrix_operators_dll = None
         self.fast_matrix_operators_dll = dll_handler.get_dll()
 

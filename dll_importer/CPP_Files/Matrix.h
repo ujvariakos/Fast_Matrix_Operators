@@ -16,6 +16,7 @@ public:
 	Matrix operator + (Matrix m);
 	Matrix operator - (Matrix m);
 	Matrix operator * (float s);
+	Matrix operator * (Matrix m);
 	//Vector operator * (float s);
 	//Vector operator / (float s);
 	Vector* get_vectors();
