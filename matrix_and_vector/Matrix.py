@@ -85,6 +85,33 @@ class Matrix:
             ret_v.append(ret_vector)
         return Matrix(ret_v)
 
+    def __mul__(self, other):
+        if not isinstance(other, (int, float)):
+            raise TypeError('Others type must be Vector')
+        # if self.vector_len != other.vector_len:
+        #     raise ValueError('Vectors must be the same size')
+        # result = Matrix(list())
+        # for i in range(len(self.points)):
+        #     result.points.append(self.points[i] + v.points[i])
+        func = self.fast_matrix_operators_dll.matrix_mul_scalar
+        func.argtypes = [ctypes.POINTER(ctypes.c_float), ctypes.c_int32,
+                         ctypes.c_int32, ctypes.c_float]
+        func.restype = ctypes.POINTER(ctypes.c_float)
+        points_arg0 = list()
+        for v in self.vectors:
+            points_arg0.extend(v.points)
+        arg0 = (ctypes.c_float * len(points_arg0))(*(points_arg0))
+        ret = func(arg0, len(self.vectors),len(self.vectors[0].points), other)
+        ret_v = list()
+        for i in range(len(self.vectors)):
+            ret_points = list()
+            for k in range(len(self.vectors[0].points)):
+                ret_points.append(ret[i*len(self.vectors[0].points) + k])
+            ret_vector = Vector(ret_points)
+            ret_v.append(ret_vector)
+        return Matrix(ret_v)
+
+
     def test(self):
         result = Vector(list())
         # for i in range(len(self.points)):

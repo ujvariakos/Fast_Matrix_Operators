@@ -15,6 +15,7 @@ public:
 	float* serialize();
 	Matrix operator + (Matrix m);
 	Matrix operator - (Matrix m);
+	Matrix operator * (float s);
 	//Vector operator * (float s);
 	//Vector operator / (float s);
 	Vector* get_vectors();

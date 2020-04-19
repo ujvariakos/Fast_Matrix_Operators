@@ -139,3 +139,13 @@ LIBDLL float* matrix_sub(float* matrix_elements_m0, int vector_number_m0, int ve
     Matrix res = m0 - m1;
     return res.serialize();
 }
+
+LIBDLL float* matrix_mul_scalar(float* matrix_elements_m0, int vector_number_m0, int vector_size_m0, float s) {
+    Vector* vectors_m0 = (Vector*)malloc(vector_number_m0 * sizeof(Vector));
+    for (int i = 0; i < vector_number_m0; i++) {
+        *(vectors_m0 + i) = Vector((matrix_elements_m0 + i * vector_size_m0), vector_size_m0);
+    }
+    Matrix m0 = Matrix(vectors_m0, vector_number_m0);
+    Matrix res = m0 * s;
+    return res.serialize();
+}

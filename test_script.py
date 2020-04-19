@@ -11,20 +11,20 @@ fast_matrix_operators_dll = dll_handler.get_dll()
 
 # print(fast_matrix_operators_dll.sum(1,3))
 
-v1 = Vector([1,2,3,4,5])
+v1 = Vector([1,2,3,4,79])
 v2 = Vector([2,3,4,5,6])
 v3 = Vector([10,21])
 
 # print(v1+v2)
 
 m1 = Matrix([v1, v1, v1])
-m2 = Matrix([v2, v2, v2])
+# m2 = Matrix([v2, v2, v2])
 # print("------------------------------")
-m3 = m1 - m2
+m3 = m1 * 2
 m1.test()
 # print(m1.test())
 print(m1)
-print(m2)
+# print(m2)
 print(m3)
 # print("------------------------------")
 # r = m.test()

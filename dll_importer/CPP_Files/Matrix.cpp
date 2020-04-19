@@ -68,6 +68,17 @@ Matrix Matrix::operator-(Matrix m)
     return matrix;
 }
 
+Matrix Matrix::operator*(float s)
+{
+    Vector* vectors = (Vector*)malloc(this->vector_number * sizeof(Vector));
+    for (int i = 0; i < this->vector_number; i++) {
+
+        *(vectors + i) = *(this->vectors + i) * s;
+    }
+    Matrix matrix = Matrix(vectors, this->vector_number);
+    return matrix;
+}
+
 Vector* Matrix::get_vectors()
 {
     return this->vectors;
