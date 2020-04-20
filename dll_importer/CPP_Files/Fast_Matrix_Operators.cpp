@@ -168,8 +168,8 @@ LIBDLL float* matrix_mul_m(float* matrix_elements_m0, int vector_number_m0, int 
     Matrix m0 = Matrix(vectors_m0, vector_number_m0);
     Matrix m1 = Matrix(vectors_m1, vector_number_m1);
     Matrix res = m0 * m1;
-//    free(vectors_m0);
-//    free(vectors_m1);
+    free(vectors_m0);
+    free(vectors_m1);
     return res.serialize();
 }
 
