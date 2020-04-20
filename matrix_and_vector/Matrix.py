@@ -1,8 +1,10 @@
 import ctypes
-import math
+# import math
+import numpy
 from typing import List
 from dll_importer import dll_handler
 from .Vector import Vector
+
 
 
 class Matrix:
@@ -184,3 +186,71 @@ class Matrix:
         # ret = self.fast_matrix_operators_dll.vector_free(ret)
         print('result', result)
         return result
+
+    def __truediv__(self, other):
+        if isinstance(other, (int, float)):
+            func = self.fast_matrix_operators_dll.matrix_div_scalar
+            func.argtypes = [ctypes.POINTER(ctypes.c_float), ctypes.c_int32,
+                             ctypes.c_int32, ctypes.c_float]
+            func.restype = ctypes.POINTER(ctypes.c_float)
+            points_arg0 = list()
+            for v in self.vectors:
+                points_arg0.extend(v.points)
+            arg0 = (ctypes.c_float * len(points_arg0))(*(points_arg0))
+            ret = func(arg0, len(self.vectors),len(self.vectors[0].points), other)
+            ret_v = list()
+            for i in range(len(self.vectors)):
+                ret_points = list()
+                for k in range(len(self.vectors[0].points)):
+                    ret_points.append(ret[i * len(self.vectors[0].points) + k])
+                ret_vector = Vector(ret_points)
+                ret_v.append(ret_vector)
+        else:
+            raise ValueError('Wrong other type it should be int or float or int')
+        return Matrix(ret_v)
+
+    def __floordiv__(self, other):
+        if isinstance(other, (int, float)):
+            func = self.fast_matrix_operators_dll.matrix_div_scalar
+            func.argtypes = [ctypes.POINTER(ctypes.c_float), ctypes.c_int32,
+                             ctypes.c_int32, ctypes.c_float]
+            func.restype = ctypes.POINTER(ctypes.c_float)
+            points_arg0 = list()
+            for v in self.vectors:
+                points_arg0.extend(v.points)
+            arg0 = (ctypes.c_float * len(points_arg0))(*(points_arg0))
+            ret = func(arg0, len(self.vectors),len(self.vectors[0].points), other)
+            ret_v = list()
+            for i in range(len(self.vectors)):
+                ret_points = list()
+                for k in range(len(self.vectors[0].points)):
+                    ret_points.append(ret[i * len(self.vectors[0].points) + k])
+                ret_vector = Vector(ret_points)
+                ret_v.append(ret_vector)
+        else:
+            raise ValueError('Wrong other type it should be int or float or int')
+        return Matrix(ret_v)
+
+    def det(self):
+        func = self.fast_matrix_operators_dll.matrix_determinant
+        func.argtypes = [ctypes.POINTER(ctypes.c_float), ctypes.c_int32,
+                         ctypes.c_int32]
+        func.restype = ctypes.c_float
+        points_arg0 = list()
+        for v in self.vectors:
+            points_arg0.extend(v.points)
+        arg0 = (ctypes.c_float * len(points_arg0))(*(points_arg0))
+        ret = func(arg0, len(self.vectors),len(self.vectors[0].points))
+        return ret
+
+    def toNumpy(self):
+        l = list()
+        # array = numpy.arange(len(self.vectors), dtype=float)
+        for v in self.vectors:
+        # for i in range(len(self.vectors)):
+            # array[i] = self.vectors[i].toNumpy()
+            # print('self.vectors[i].toNumpy()', self.vectors[i].toNumpy())
+            l.append(v.toNumpy())
+        # print('fjdsfkjldskfds', l)
+        return numpy.array(l, dtype=float)
+        # return array

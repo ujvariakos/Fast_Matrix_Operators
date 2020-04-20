@@ -17,8 +17,8 @@ public:
 	Matrix operator - (Matrix m);
 	Matrix operator * (float s);
 	Matrix operator * (Matrix m);
-	//Vector operator * (float s);
-	//Vector operator / (float s);
+	Matrix operator / (float s);
+	float det(Matrix m, float asign, float amul_value);
 	Vector* get_vectors();
 	int get_vector_number();
 	int get_vector_size();

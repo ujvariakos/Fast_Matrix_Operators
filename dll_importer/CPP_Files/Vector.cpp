@@ -25,7 +25,7 @@ Vector::Vector(float* vector_elements, int size_v)
 
 Vector::~Vector()
 {
-
+//    free(this->vector_elements);
 }
 
 //void Vector::free_elements(){
@@ -37,6 +37,7 @@ Vector::~Vector()
 Vector Vector::operator+(Vector v)
 {
     float* ret_v = (float*)malloc(this->size_v * sizeof(float));
+//    float ret_v[v.get_size_v()];
     if (this->size_v != v.get_size_v()) {
         throw std::invalid_argument("vectors length are different");
         //          throw MyException()
@@ -47,13 +48,15 @@ Vector Vector::operator+(Vector v)
         }
     }
     Vector ret = Vector(ret_v, this->size_v);
-    free(ret_v);
-	return Vector(ret_v, this->size_v);
+//    free(ret_v);
+//	return Vector(ret_v, this->size_v);
+    return ret;
 }
 
 Vector Vector::operator-(Vector v)
 {
     float* ret_v = (float*)malloc(this->size_v * sizeof(float));
+//    float ret_v[this->size_v];
     if (this->size_v != v.get_size_v()) {
         throw std::invalid_argument("vectors length are different");
         //          throw MyException()
@@ -64,20 +67,23 @@ Vector Vector::operator-(Vector v)
         }
     }
     Vector ret = Vector(ret_v, this->size_v);
-    free(ret_v);
-	return Vector(ret_v, this->size_v);
+//    free(ret_v);
+//	return Vector(ret_v, this->size_v);
+    return ret;
 }
 
 Vector Vector::operator*(float s)
 {
     float* ret_v = (float*)malloc(this->size_v * sizeof(float));
+//    float ret_v[this->size_v];
     for (int i = 0; i < this->size_v; i++) {
         *(ret_v + i) = *(this->vector_elements + i) * s;
     }
 
     Vector ret = Vector(ret_v, this->size_v);
-    free(ret_v);
-	return Vector(ret_v, this->size_v);
+//    free(ret_v);
+//	return Vector(ret_v, this->size_v);
+    return ret;
 }
 
 Vector Vector::operator/(float s)
@@ -87,13 +93,15 @@ Vector Vector::operator/(float s)
        // throw MyException();
     }
     float* ret_v = (float*)malloc(this->size_v * sizeof(float));
+//    float ret_v[this->size_v];
     for (int i = 0; i < this->size_v; i++) {
         *(ret_v + i) = *(this->vector_elements + i) / s;
     }
 
     Vector ret = Vector(ret_v, this->size_v);
-    free(ret_v);
-	return Vector(ret_v, this->size_v);
+//    free(ret_v);
+//	return Vector(ret_v, this->size_v);
+    return ret;
 }
 
 float* Vector::get_vector_elements()

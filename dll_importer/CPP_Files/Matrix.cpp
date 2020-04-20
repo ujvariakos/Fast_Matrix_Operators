@@ -3,6 +3,7 @@
 #include <stdexcept>
 using namespace std;
 
+
 Matrix::Matrix(Vector* vectors, int vector_number)
 {
     this->vectors = vectors;
@@ -18,7 +19,7 @@ Matrix::Matrix(Vector* vectors, int vector_number)
 
 Matrix::~Matrix()
 {
-
+//    free(this->vectors);
 }
 
 float* Matrix::serialize()
@@ -47,6 +48,7 @@ Matrix Matrix::operator+(Matrix m)
         *(vectors + i) = *(this->vectors + i) + *(m.get_vectors() + i);
     }
     Matrix matrix = Matrix(vectors, this->vector_number);
+    free(vectors);
     return matrix;
 }
 
@@ -65,6 +67,7 @@ Matrix Matrix::operator-(Matrix m)
         *(vectors + i) = *(this->vectors + i) - *(m.get_vectors() + i);
     }
     Matrix matrix = Matrix(vectors, this->vector_number);
+    free(vectors);
     return matrix;
 }
 
@@ -76,6 +79,7 @@ Matrix Matrix::operator*(float s)
         *(vectors + i) = *(this->vectors + i) * s;
     }
     Matrix matrix = Matrix(vectors, this->vector_number);
+//    free(vectors);
     return matrix;
 }
 
@@ -93,17 +97,80 @@ Matrix Matrix::operator*(Matrix m)
         Vector v = *(m.get_vectors() + 0) * *((this->vectors + i)->get_vector_elements() + 0);
         for (int k = 0; k < this->vector_size; k++) {
             if (k == 0) {
-            // Nope
+                // Nope
             }
             else {
                 v = v + *(m.get_vectors() + k) * *((this->vectors + i)->get_vector_elements() + k);
             }
         }
-    *(vectors + i) = v;
+        *(vectors + i) = v;
 
     }
     Matrix matrix = Matrix(vectors, this->vector_number);
+//    free(vectors);
     return matrix;
+}
+
+Matrix Matrix::operator/(float s)
+{
+    if (s == 0) {
+        throw std::invalid_argument("scalar can not be 0");
+        // throw MyException();
+    }
+    Vector* vectors = (Vector*)malloc(this->vector_number * sizeof(Vector));
+    for (int i = 0; i < this->vector_number; i++) {
+
+        *(vectors + i) = *(this->vectors + i) / s;
+    }
+    Matrix matrix = Matrix(vectors, this->vector_number);
+    free(vectors);
+    return matrix;
+}
+
+float Matrix::det(Matrix m, float asign, float amul_value)
+{
+    float ret = 0.0;
+    if (m.get_vector_number() != m.get_vector_size()) {
+        throw std::invalid_argument("matrix is not square");
+    }
+    if (this->vector_size == 1) {
+        return *this->vectors->get_vector_elements();
+    }
+    else if (this->vector_size == 2) {
+        float det = *this->vectors->get_vector_elements() * *((this->vectors + 1)->get_vector_elements() + 1) - *((this->vectors + 1)->get_vector_elements() + 0) * *((this->vectors + 0)->get_vector_elements() + 1);
+        return asign * det * amul_value;
+    }
+    else {
+        for (int i = 0; i < m.get_vector_size(); i++) {
+            float mul_value = *(m.get_vectors()->get_vector_elements() + i);
+            float sign = 1.0;
+            if (i % 2 != 0) {
+                sign = -1.0;
+            }
+            Vector* vectors = (Vector*)malloc((m.get_vector_number() - 1) * sizeof(Vector));
+            for (int row = 1; row < m.get_vector_number(); row++) {
+                float* elements = (float*)malloc((m.get_vector_number() - 1) * sizeof(float));
+                for (int col = 0; col < m.get_vector_size(); col++) {
+                    if (i > col) {
+                        *(elements + col) = *((m.get_vectors() + row)->get_vector_elements() + col);
+                    }
+                    else if (i < col) {
+                        *(elements + col - 1) = *((m.get_vectors() + row)->get_vector_elements() + col);
+                    }
+                    else {
+                        // NOPE
+
+                    }
+                }
+                *(vectors + row - 1) = Vector(elements, (m.get_vector_size() - 1));
+                //free(elements);
+            }
+            Matrix new_m = Matrix(vectors, m.get_vector_number() - 1);
+            ret = ret + asign*amul_value*new_m.det(new_m, sign, mul_value);
+            free(vectors);
+        }
+        return ret;
+    }
 }
 
 Vector* Matrix::get_vectors()

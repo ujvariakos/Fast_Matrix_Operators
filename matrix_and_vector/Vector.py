@@ -12,7 +12,9 @@ class Vector:
     def __init__(self, points):
         self.points = list()
         for p in points:
-            self.points.append(p)
+            # if not isinstance(p, float):
+            #     raise TypeError('Possible type is float')
+            self.points.append(float(p))
         # self.fast_matrix_operators_dll = None
         self.fast_matrix_operators_dll = dll_handler.get_dll()
 
@@ -109,3 +111,13 @@ class Vector:
             result.points.append(math.floor(ret[i]))
         # ret = self.fast_matrix_operators_dll.vector_free(ret)
         return result
+
+    def toNumpy(self):
+        # array = numpy.arange(len(self.points), dtype=float)
+        # print('array', array)
+        # for i in range(len(self.points)):
+        #     array[i] = self.points[i]
+        # for p in
+        return numpy.array(self.points, dtype=float)
+        # print('array', array)
+        # return array
