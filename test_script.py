@@ -108,7 +108,7 @@ m1 = Matrix(a)
 print(m1)
 m2 = Matrix(b)
 print(m2)
-m3 = m1 * m2
+m3 = m1 * 2
 
 print('fewfwdfwefw',m3)
 # m3.toNumpy()

@@ -221,6 +221,22 @@ class MyTestCase(unittest.TestCase):
         numpy.testing.assert_array_almost_equal(data, data2, 5)
 
 
+    def test_matrix_int(self):
+        #b = numpy.array([[2,1,1,1],[4,3,6,4],[6,7,21,16],[2,3,15,23]])
+
+        b = numpy.array([[0,1,2], [1,1,3], [1,2,4]])
+        m1 = Matrix(b)
+        data = m1.inv()
+        print('data ', data.toNumpy())
+        data2 = numpy.linalg.inv(numpy.matrix(b))
+        print('data2 ', data2)
+        # for i in range(len(m3.vectors)):
+        #     for k in range(len((m3.vectors[i].points))):
+        #         act = (i*(len(m3.vectors[i].points)) + k)
+        #         self.assertAlmostEqual(m3.vectors[i].points[k], np_m3.item(act), 5)
+        numpy.testing.assert_array_almost_equal(data.toNumpy(), data2, 5)
+
+
 
 if __name__ == '__main__':
     unittest.main()

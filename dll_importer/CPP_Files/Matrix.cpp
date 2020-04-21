@@ -173,6 +173,55 @@ float Matrix::det(Matrix m, float asign, float amul_value)
     }
 }
 
+Matrix Matrix::transpose()
+{
+    Vector* vectors = (Vector*)malloc((this->vector_size) * sizeof(Vector));
+    for (int row = 0; row < this->vector_size; row++) {
+        float* elements = (float*)malloc(this->vector_number * sizeof(float));
+        for (int col = 0; col < this->vector_number; col++) {
+            *(elements + col) = *((this->vectors + col)->get_vector_elements() + row);
+        }
+        *(vectors + row) = Vector(elements, this->vector_number);
+    }
+    return Matrix(vectors, (this->vector_size));
+}
+
+Matrix Matrix::adj()
+{
+    Vector* new_vectors = (Vector*)malloc((this->vector_number) * sizeof(Vector));
+    for (int col = 0; col < this->vector_number; col++) {
+        float* new_elements = (float*)malloc(this->vector_size * sizeof(float));
+        for (int row = 0; row < this->vector_size; row++) {
+            float sign = 1;
+            if ((col * this->vector_size +row) %2 != 0) {
+                sign = -1;
+            }
+            Vector* vectors = (Vector*)malloc((this->vector_number - 1) * sizeof(Vector));
+            for (int col1 = 0; col1 < this->vector_number; col1++) {
+                float* elements = (float*)malloc((this->vector_size - 1) * sizeof(float));
+                for (int row1 = 0; row1 < this->vector_size; row1++) {
+                    if (row < row1) {
+                        *(elements + row1 - 1) = *((this->vectors + col1)->get_vector_elements() + row1);
+                    }
+                    else if (row > row1) {
+                        *(elements + row1) = *((this->vectors + col1)->get_vector_elements() + row1);
+                    }
+                }
+                if (col < col1) {
+                    *(vectors + col1 - 1) = Vector(elements, (this->vector_size - 1));
+                }
+                else if (col > col1) {
+                    *(vectors + col1) = Vector(elements, (this->vector_size - 1));
+                }
+            }
+            Matrix m_new = Matrix(vectors, (this->vector_number - 1));
+            *(new_elements + row) = m_new.det(m_new, sign, 1);
+        }
+        *(new_vectors + col) = Vector(new_elements, this->vector_number);
+    }
+    return Matrix(new_vectors, (this->vector_size));
+}
+
 Vector* Matrix::get_vectors()
 {
     return this->vectors;

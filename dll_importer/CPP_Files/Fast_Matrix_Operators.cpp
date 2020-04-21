@@ -193,3 +193,16 @@ LIBDLL float matrix_determinant(float* matrix_elements_m0, int vector_number_m0,
     float val = m0.det(m0, 1.0, 1.0);
     return val;
 }
+
+LIBDLL float* matrix_invert(float* matrix_elements_m0, int vector_number_m0, int vector_size_m0) {
+    Vector* vectors_m0 = (Vector*)malloc(vector_number_m0 * sizeof(Vector));
+    for (int i = 0; i < vector_number_m0; i++) {
+        *(vectors_m0 + i) = Vector((matrix_elements_m0 + i * vector_size_m0), vector_size_m0);
+    }
+    Matrix m0 = Matrix(vectors_m0, vector_number_m0);
+    float det = m0.det(m0, 1.0, 1.0);
+    Matrix m1 = m0.adj();
+    Matrix m1t = m1.transpose();
+    Matrix ret = m1t/det;
+    return ret.serialize();
+}
