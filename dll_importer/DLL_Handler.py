@@ -27,21 +27,14 @@ class DLL_Handler:
             self.vcvars_bat = input(msg)
         if not os.path.exists(Path(self.vcvars_bat)):
             raise ValueError("vcvars.bat is not exists")
-        # current_file_path = os.path.abspath(__file__)
         current_folder_dir = Path(__file__).parent.absolute()
         self.cwd = os.path.join(current_folder_dir,r'generated_files')
-        print(self.cwd)
-        # self.cwd_str = str(self.cwd)
-        # self.cwd_str = r"d:/PythonProjects/Fast_Matrix_Operators_Project/dll_importer/generated_files/"
-        # self.cwd = Path(self.cwd_str)
-        # self.Fast_Matrix_Operators_Cpp = r"d:\PythonProjects\Fast_Matrix_Operators_Project\dll_importer\CPP_Files\Fast_Matrix_Operators.cpp"
         self.Fast_Matrix_Operators_Cpp = os.path.join(current_folder_dir,r'CPP_Files','Fast_Matrix_Operators.cpp')
         self.Vector_Cpp = os.path.join(current_folder_dir,r'CPP_Files','Vector.cpp')
         self.Matrix_Cpp = os.path.join(current_folder_dir, r'CPP_Files', 'Matrix.cpp')
         self._compile_dll()
 
     def _compile_dll(self):
-        # " /LD " + "d:\PythonProjects\Fast_Matrix_Operators_Project\dll_importer\CPP_Files\Vector.cpp "
         cmd = r'"' + self.vcvars_bat + r'"' + " " + "&&" + " " + r'"' + self.cl_exe + r'"' +\
             " " + "/LD " + str(self.Fast_Matrix_Operators_Cpp) + " " + str(self.Matrix_Cpp) + " " + str(self.Vector_Cpp)
         proc = subprocess.Popen(cmd, cwd=self.cwd)
@@ -49,6 +42,5 @@ class DLL_Handler:
 
     def get_dll(self):
         fast_matrix_operators_dll_path = str(os.path.join(self.cwd,"Fast_Matrix_Operators.dll"))
-        # fast_matrix_operators_dll = cdll.LoadLibrary(r"d:\PythonProjects\Fast_Matrix_Operators_Project\dll_importer\generated_files\Fast_Matrix_Operators.dll")
         fast_matrix_operators_dll = cdll.LoadLibrary(fast_matrix_operators_dll_path)
         return fast_matrix_operators_dll

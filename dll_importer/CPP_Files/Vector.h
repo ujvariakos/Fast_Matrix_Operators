@@ -1,7 +1,7 @@
 #pragma once
 #ifndef VECTOR_H
 #define VECTOR_H
-#define LIBDLL extern "C" __declspec(dllexport)
+//#define LIBDLL extern "C" __declspec(dllexport)
 class Vector
 {
 private:

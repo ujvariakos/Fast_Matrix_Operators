@@ -16,16 +16,12 @@ class Matrix:
             self.vectors = list()
             for v in vectors:
                 vector = Vector(v)
-                # self.vector_len = v.size
                 print(vector)
                 self.vectors.append(vector)
         self.vector_len = len(self.vectors[0].points)
-        # print(self.vectors)
-        # check lens
         for v in self.vectors:
             if len(v.points) != self.vector_len:
                 raise ValueError('Vectors lens must be same')
-        # self.fast_matrix_operators_dll = None
         self.fast_matrix_operators_dll = dll_handler.get_dll()
 
     def __str__(self):
@@ -39,9 +35,6 @@ class Matrix:
             raise TypeError('Others type must be Vector')
         if self.vector_len != other.vector_len:
             raise ValueError('Vectors must be the same size')
-        # result = Matrix(list())
-        # for i in range(len(self.points)):
-        #     result.points.append(self.points[i] + v.points[i])
         func = self.fast_matrix_operators_dll.matrix_add
         func.argtypes = [ctypes.POINTER(ctypes.c_float), ctypes.c_int32,
                          ctypes.c_int32, ctypes.POINTER(ctypes.c_float), ctypes.c_int32, ctypes.c_int32]
@@ -70,9 +63,6 @@ class Matrix:
             raise TypeError('Others type must be Vector')
         if self.vector_len != other.vector_len:
             raise ValueError('Vectors must be the same size')
-        # result = Matrix(list())
-        # for i in range(len(self.points)):
-        #     result.points.append(self.points[i] + v.points[i])
         func = self.fast_matrix_operators_dll.matrix_sub
         func.argtypes = [ctypes.POINTER(ctypes.c_float), ctypes.c_int32,
                          ctypes.c_int32, ctypes.POINTER(ctypes.c_float), ctypes.c_int32, ctypes.c_int32]
@@ -140,9 +130,7 @@ class Matrix:
             _vectors = list()
             for p in other.points:
                 _vectors.append(Vector([p]))
-            # print(_vectors)
             _m = Matrix(_vectors)
-            # print(_m)
             func = self.fast_matrix_operators_dll.matrix_mul_m
             func.argtypes = [ctypes.POINTER(ctypes.c_float), ctypes.c_int32,
                              ctypes.c_int32, ctypes.POINTER(ctypes.c_float), ctypes.c_int32, ctypes.c_int32]
@@ -167,25 +155,6 @@ class Matrix:
         else:
             raise ValueError('Wrong other type it should be int or float or Matrix or Vector')
         return Matrix(ret_v)
-
-
-    def test(self):
-        result = Vector(list())
-        # for i in range(len(self.points)):
-        #     result.points.append(self.points[i] + v.points[i])
-        func = self.fast_matrix_operators_dll.create_matrix
-        func.argtypes = [ctypes.POINTER(ctypes.c_float), ctypes.c_int32, ctypes.c_int32]
-        func.restype = ctypes.POINTER(ctypes.c_float)
-        points = list()
-        for v in self.vectors:
-            points.extend(v.points)
-        arg0 = (ctypes.c_float * len(points))(*(points))
-        ret = func(arg0, len(points), self.vector_len)
-        for i in range(self.vector_len):
-            result.points.append(ret[i])
-        # ret = self.fast_matrix_operators_dll.vector_free(ret)
-        print('result', result)
-        return result
 
     def __truediv__(self, other):
         if isinstance(other, (int, float)):
@@ -266,12 +235,6 @@ class Matrix:
 
     def toNumpy(self):
         l = list()
-        # array = numpy.arange(len(self.vectors), dtype=float)
         for v in self.vectors:
-        # for i in range(len(self.vectors)):
-            # array[i] = self.vectors[i].toNumpy()
-            # print('self.vectors[i].toNumpy()', self.vectors[i].toNumpy())
             l.append(v.toNumpy())
-        # print('fjdsfkjldskfds', l)
         return numpy.array(l, dtype=float)
-        # return array

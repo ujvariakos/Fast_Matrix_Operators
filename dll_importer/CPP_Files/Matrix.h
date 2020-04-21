@@ -1,6 +1,6 @@
 #ifndef MATRIX_H
 #define MATRIX_H
-#define LIBDLL extern "C" __declspec(dllexport)
+//#define LIBDLL extern "C" __declspec(dllexport)
 #include "Vector.h"
 
 class Matrix
